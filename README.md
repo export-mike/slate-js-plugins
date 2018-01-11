@@ -40,7 +40,8 @@ class App extends Component {
     return (
       <div className="App">
         <Toolbar onChange={this.onChange} value={this.state.value}
-          render={() => <React.Fragment>
+          render={({DefaultButtons}) => <React.Fragment>
+            <DefaultButtons />
             <HistoryButtons onChange={this.onChange} value={this.state.value}/>
           </React.Fragment>}
         />
