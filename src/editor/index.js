@@ -1,8 +1,6 @@
 import React from 'react';
 import { Editor as SlateEditor } from 'slate-react';
 
-const EditorWrapper = React.Fragment;
-
 export class Editor extends React.PureComponent {
     constructor(props) {
         super(props);
@@ -60,20 +58,13 @@ export class Editor extends React.PureComponent {
         }
     }
     render() {
-        const rendered = <SlateEditor
+        return <SlateEditor
             value={this.props.value}
             onChange={this.props.onChange}
             plugins={this.state.plugins}
             renderMark={this.state.renderMark}
             renderNode={this.state.renderNode}
-        />;
-        if (this.props.render) {
-            return this.props.render({
-                children: rendered,
-                EditorWrapper
-            });
-        }
-        return rendered;
+        />
     }
 }
 

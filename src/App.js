@@ -6,6 +6,7 @@ import {Editor} from './editor';
 
 import { plugin as markShortcutsPlugin } from './plugins/mark-shortcuts';
 import { Toolbar, plugin as toolbarPlugin } from './plugins/toolbar';
+import { HistoryButtons } from './plugins/history';
 const plugins = [
   markShortcutsPlugin(),
   toolbarPlugin()
@@ -49,15 +50,14 @@ class App extends Component {
         <p className="App-intro">
           SlateJS Editor
         </p>
+        <Toolbar onChange={this.onChange} value={this.state.value} render={({ DefaultButtons }) => <React.Fragment>
+          <DefaultButtons />
+          <HistoryButtons value={this.state.value} onChange={this.onChange} />
+        </React.Fragment>}/>
         <Editor
           value={this.state.value}
           onChange={this.onChange}
           plugins={plugins}
-          render={({EditorWrapper, children}) => <EditorWrapper>
-              <Toolbar onChange={this.onChange} value={this.state.value}/>
-              {children}
-            </EditorWrapper>
-          }
         />
       </div>
     );
