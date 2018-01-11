@@ -4,10 +4,11 @@ import './App.css';
 import {Value} from 'slate';
 import {Editor} from './editor';
 
-import { plugin as markShortcuts } from './plugins/mark-shortcuts';
-import { Toolbar } from './plugins/toolbar';
+import { plugin as markShortcutsPlugin } from './plugins/mark-shortcuts';
+import { Toolbar, plugin as toolbarPlugin } from './plugins/toolbar';
 const plugins = [
-  markShortcuts()
+  markShortcutsPlugin(),
+  toolbarPlugin()
 ]
 
 class App extends Component {

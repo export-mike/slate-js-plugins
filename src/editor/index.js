@@ -13,9 +13,6 @@ export class Editor extends React.PureComponent {
     mapToSlateProps = props => {
         const plugins = props.plugins.reduce((plugins, plugin) => {
             if (!plugin.plugin) {
-                if (process.env.NODE_ENV !== 'production') {
-                    console.error(`${plugin.name} - has been skipped, ensure plugin has the correct structure.`);
-                }
                 return plugins;
             }
             if (Array.isArray(plugin.plugin)) {
@@ -37,9 +34,22 @@ export class Editor extends React.PureComponent {
             }
         }, i => null)
 
+        const renderNode = props.plugins.reduce((renderNode, plugin) => {
+            if (!plugin.renderNode) return renderNode;
+            return props => {
+                const result = renderNode(props);
+                if (result) return result;
+                return mergeNodeRenderers({
+                    defaultRenderer: plugin.renderNode,
+                    customRenderer: props.customRenderer
+                })(props);
+            }
+        }, i => null)
+
         return {
             plugins,
             renderMark,
+            renderNode
         }
     }
     componentWillReceiveProps = nextProps => {
@@ -55,6 +65,7 @@ export class Editor extends React.PureComponent {
             onChange={this.props.onChange}
             plugins={this.state.plugins}
             renderMark={this.state.renderMark}
+            renderNode={this.state.renderNode}
         />;
         if (this.props.render) {
             return this.props.render({
@@ -75,6 +86,17 @@ export function mergeMarkRenderers({
     const renderer = { ...defaultRenderer, ...customRenderer };
     return (props) => {
         const fn = renderer[props.mark.type] || noop;
+        return fn(props);
+    }
+}
+
+export function mergeNodeRenderers({
+    defaultRenderer,
+    customRenderer
+}) {
+    const renderer = { ...defaultRenderer, ...customRenderer };
+    return (props) => {
+        const fn = renderer[props.node.type] || noop;
         return fn(props);
     }
 }
