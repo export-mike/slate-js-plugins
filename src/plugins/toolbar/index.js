@@ -11,7 +11,7 @@ import React from 'react';
 const DefaultToolbarWrapper = ({children}) => <div style={{
     display: 'flex',
     width: '100%',
-    justifyContent: 'space-between'
+    // justifyContent: 'space-around'
 }}>
     {children}
 </div>
@@ -33,7 +33,11 @@ export class Toolbar extends React.PureComponent {
         const ToolbarWrapper = this.props.toolbarWrapper || DefaultToolbarWrapper;
         const Button = this.props.button || DefaultButton;
         const DefaultButtons = () => <React.Fragment>
-                <Button type="mark" action="format_bold" label="Bold" labelShort="B" onMouseDown={(e) => this.onClickMark(e, 'bold')} />
+                <Button type="mark" label="Bold" labelShort="B" onMouseDown={(e) => this.onClickMark(e, 'bold')} />
+                <Button type="mark" label="Italic" labelShort="I" onMouseDown={(e) => this.onClickMark(e, 'italic')} />
+                <Button type="mark" label="underline" labelShort="U" onMouseDown={(e) => this.onClickMark(e, 'underline')} />
+                <Button type="mark" label="code" labelShort="<>" onMouseDown={(e) => this.onClickMark(e, 'code')} />
+                {/* <Button type="node" label="H1" labelShort="H1" onMouseDown={(e) => this.onClickMark(e, 'h1')} /> */}
             </React.Fragment>
             
         return <ToolbarWrapper>
